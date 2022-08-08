@@ -14,7 +14,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	
+	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //modific 03/08/22 eu comentei
 	@EmbeddedId
+	
 	private OrderItemPk id = new OrderItemPk();
 	
 	private Integer quantity;
@@ -39,6 +42,7 @@ public class OrderItem implements Serializable {
 		id.setOrder(order);
 	}
 	
+	//@JsonIgnore //retirado pois dava problema no Postman no carregamento do produto
 	public Product getProduct() {
 		return id.getProduct();
 	} 
@@ -46,7 +50,8 @@ public class OrderItem implements Serializable {
 	public void setProduct(Product product) {
 		id.setProduct(product);
 	}
-
+    
+	@JsonIgnore
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -54,7 +59,7 @@ public class OrderItem implements Serializable {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-
+	
 	public Double getPrice() {
 		return price;
 	}

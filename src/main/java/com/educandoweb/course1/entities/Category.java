@@ -26,8 +26,9 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	
-	@JsonIgnore
-	//@ManyToMany@Fetch(FetchMode.JOIN)
+	//@Transient
+	@JsonIgnore 	
+	@Fetch(FetchMode.JOIN)
 	@ManyToMany(mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
 	

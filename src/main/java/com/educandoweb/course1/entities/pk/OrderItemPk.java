@@ -6,6 +6,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.educandoweb.course1.entities.Order;
 import com.educandoweb.course1.entities.Product;
 
@@ -13,13 +16,16 @@ import com.educandoweb.course1.entities.Product;
 public class OrderItemPk implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToOne
+	//OBS: acrescentou @Fetch(FetchMode.JOIN)29/07/22
+	@ManyToOne@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "order_id")
 	private Order order;
 	
-	@ManyToOne
+	//OBS: acrescentou @Fetch(FetchMode.JOIN)29/07/22
+	@ManyToOne@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "product_id")
 	private Product product;
+	
 	public Order getOrder() {
 		return order;
 	}

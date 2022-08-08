@@ -34,8 +34,8 @@ public class Order implements Serializable {
 	
 	private Integer orderStatus;
 	
-	//muitos para um ManyToOne
-	@ManyToOne
+	//muitos para um ManyToOne 
+	@ManyToOne@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "client_id")
 	private User client;
 	
@@ -66,7 +66,6 @@ public class Order implements Serializable {
 	public Instant getMoment() {
 		return moment;
 	}
-
 	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
@@ -74,10 +73,9 @@ public class Order implements Serializable {
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
 	}
-
 	public void setOrderStatus(OrderStatus orderStatus) {
-		if(orderStatus != null) {
-		this.orderStatus = orderStatus.getCode();
+		if (orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
 		}
 	}
 
