@@ -9,15 +9,14 @@ import javax.persistence.Table;
 import com.educandoweb.course1.entities.pk.OrderItemPk;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 @Entity
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
-	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //modific 03/08/22 eu comentei
-	@EmbeddedId
-	
+	@EmbeddedId	
 	private OrderItemPk id = new OrderItemPk();
 	
 	private Integer quantity;
@@ -42,16 +41,18 @@ public class OrderItem implements Serializable {
 		id.setOrder(order);
 	}
 	
-	//@JsonIgnore //retirado pois dava problema no Postman no carregamento do produto
+	//retirado pois dava problema no Postman no carregamento do produto
+	//@JsonIgnore
 	public Product getProduct() {
 		return id.getProduct();
 	} 
+	
 	
 	public void setProduct(Product product) {
 		id.setProduct(product);
 	}
     
-	@JsonIgnore
+	//@JsonIgnore
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -59,7 +60,7 @@ public class OrderItem implements Serializable {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	
+	@JsonIgnore
 	public Double getPrice() {
 		return price;
 	}

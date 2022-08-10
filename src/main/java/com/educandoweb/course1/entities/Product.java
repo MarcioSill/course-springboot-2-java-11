@@ -23,28 +23,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "tb_product")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; ///modificado Interger por Long erro o estring não buscava o id 
+	private Long id;
 	private String name;
 	private String description;
 	private Double price;
 	private String imgUrl;
-
-	// muitos para muitos para mostrar no postiman acrecenta @ManyToMany@Fetch(FetchMode.JOIN)
 	
-	//@Transient // comentado seguindo a aula foi retirado 
+	
 	@ManyToMany@Fetch(FetchMode.JOIN)
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))	
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
-	
-	//usa-se @Fetch(FetchMode.JOIN)um para muitos e Set no lugar do list para não fazer repetição do mesmo item
-	
-	@Fetch(FetchMode.JOIN)	
+
+	//@Transient
+	@Fetch(FetchMode.JOIN)
 	@OneToMany(mappedBy = "id.product")
 	private Set<OrderItem> items = new HashSet<>();
-   
+
 	public Product() {
 	}
 
@@ -56,51 +52,40 @@ public class Product implements Serializable {
 		this.price = price;
 		this.imgUrl = imgUrl;
 	}
-
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public Double getPrice() {
 		return price;
 	}
-
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-
 	public String getImgUrl() {
 		return imgUrl;
 	}
-
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
-	
 	public Set<Category> getCategories() {
 		return categories;
 	}
-	
+
 	@JsonIgnore
 	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
@@ -117,7 +102,6 @@ public class Product implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -135,3 +119,4 @@ public class Product implements Serializable {
 		return true;
 	}
 }
+
