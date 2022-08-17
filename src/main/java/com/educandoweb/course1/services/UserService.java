@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.educandoweb.course1.entities.User;
 import com.educandoweb.course1.repositories.UserRepository;
@@ -35,11 +36,12 @@ public class UserService {
 
 	// getOne prepara o objeto monitorado para poder mexer e depois atualizar
 	public User update(Long id, User obj) {
-		User entity = repository.getOne(id);
+		User entity = repository.getById(id); //getOne(id);
 		updateData(entity, obj);
 		return repository.save(entity);
 	}
 
+	@RequestMapping
 	private void updateData(User entity, User obj) {
 		entity.setName(obj.getName());
 		entity.setEmail(obj.getEmail());
