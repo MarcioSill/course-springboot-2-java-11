@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.educandoweb.course1.entities.User;
 import com.educandoweb.course1.repositories.UserRepository;
+import com.educandoweb.course1.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -23,7 +24,7 @@ public class UserService {
 	// findById ele tras o objeto do banco de dados para poder trabalhar
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	public User insert(User obj) {
