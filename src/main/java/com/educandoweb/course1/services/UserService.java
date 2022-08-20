@@ -3,6 +3,8 @@ package com.educandoweb.course1.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -48,9 +50,14 @@ public class UserService {
 
 	// getOne prepara o objeto monitorado para poder mexer e depois atualizar
 	public User update(Long id, User obj) {
-		User entity = repository.getOne(id);
+		try {
+		User entity = repository.getById(id); //getById no lugar getOne
 		updateData(entity, obj);
 		return repository.save(entity);
+		}
+		catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);			
+		}
 	}
 
 	@RequestMapping
