@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.educandoweb.course1.entities.User;
 import com.educandoweb.course1.repositories.UserRepository;
+import com.educandoweb.course1.services.exceptions.DatabaseException;
 import com.educandoweb.course1.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -32,12 +35,20 @@ public class UserService {
 	}
 
 	public void delete(Long id) {
+		try {
 		repository.deleteById(id);
+		}
+		catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 
 	// getOne prepara o objeto monitorado para poder mexer e depois atualizar
 	public User update(Long id, User obj) {
-		User entity = repository.getById(id); //getOne(id);
+		User entity = repository.getOne(id);
 		updateData(entity, obj);
 		return repository.save(entity);
 	}
